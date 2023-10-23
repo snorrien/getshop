@@ -1,31 +1,23 @@
-export class PhoneNumber {
+export class PhoneNumberService {
     readonly _mask: string = '+7 ({1}{2}{3}) {4}{5}{6}-{7}{8}-{9}{10}'; // +7 (___) ___-__-__
-    private readonly _digits: number[] = [];
+    private _digits: number[] = [];
     private readonly _patterns = [
         /\{1\}/, /\{2\}/, /\{3\}/, /\{4\}/, /\{5\}/, /\{6\}/, /\{7\}/, /\{8\}/, /\{9\}/, /\{10\}/
     ]
 
     public value = '';
 
-    private digitMap = new Map<number, number>([
-        [0, 4],
-        [1, 5],
-        [2, 6],
-        [3, 7],
-        [4, 9],
-        [5, 10],
-        [6, 11],
-        [7, 13],
-        [8, 14],
-        [9, 16],
-        [10, 17],
-    ]);
-
-    public addDigit(digit: number) : number {
+    public addDigit(digit: number) {
+        if (this._digits.length === 10) {
+            return;
+        }
         this._digits.push(digit);
         this._updateValue();
-        
-        return this.digitMap.get(this._digits.length) ?? 0;
+    }
+
+    public clean() {
+        this._digits = [];
+        this._updateValue();
     }
 
     private _updateValue() {
