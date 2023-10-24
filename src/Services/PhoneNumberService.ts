@@ -1,4 +1,4 @@
-export class PhoneNumberService {
+export class  PhoneNumberService  {
     readonly _mask: string = '+7 ({1}{2}{3}) {4}{5}{6}-{7}{8}-{9}{10}'; // +7 (___) ___-__-__
     private _digits: number[] = [];
     private readonly _patterns = [

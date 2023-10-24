@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import PhoneEnter from './components/PhoneEnter';
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [y, setY] = useState<any>(document.scrollingElement?.scrollHeight);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   
   const handleNavigation = useCallback((e: any) => {
-    if (y > window.scrollY) {
+    if (y < window.scrollY) {
       setIsPlaying(false)
-      console.log("scrolling up");
-    } else if (y < window.scrollY) {
-
-      console.log("scrolling down");
+    } else if (y > window.scrollY) {
+      setIsPlaying(true)  
     }
+    console.log(isPlaying);
     setY(window.scrollY)
   }, [y]);
 
@@ -22,7 +22,17 @@ function App() {
     return () => {
       window.removeEventListener("scroll", handleNavigation);
     };
-  }, [handleNavigation]);
+  });
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
 
   const handleClickScroll = () => {
     const element = document.getElementById('section-two');
@@ -31,15 +41,10 @@ function App() {
     }
   };
 
-  const handleTogglePlay = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  };
-
-
   return (
     <div>
       <div className='App' id="section-one" >
-        <video loop autoPlay muted id='bg-video'>
+        <video loop ref={videoRef} controls muted id='bg-video'>
           <source src={require('./assets/videoBg.mp4')} type='video/mp4' />
         </video>
         <div className='greeting'>
