@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react';
 const phoneNumber = new PhoneNumberService();
 
 function PhoneEnter() {
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState<string | undefined>();
+    const [selectBox, setSelectBox] = useState(false);
+
+    const handleClickBox = () => {
+        setSelectBox(!selectBox);
+    };
 
     function addDigit(digit: number) {
         phoneNumber.addDigit(digit);
@@ -20,9 +25,13 @@ function PhoneEnter() {
 
     useEffect(() => {
         const handleKeyUp = (e: KeyboardEvent) => {
+            console.log(e.key)
             if (e.key >= '0' && e.key <= '9') {
                 phoneNumber.addDigit(+e.key)
-                setPhone(phoneNumber.value)
+                setPhone(phoneNumber.value);
+            } else if (e.key === 'Backspace') {
+                phoneNumber.removeLastDigit();
+                setPhone(phoneNumber.value);
             }
         };
 
@@ -32,6 +41,10 @@ function PhoneEnter() {
             document.removeEventListener('keyup', handleKeyUp);
         };
     }, []);
+
+    function handleConfirmClick(): void {
+        console.log('asd')
+    }
 
     return (
         <div className='phoneEnter'>
@@ -48,7 +61,7 @@ function PhoneEnter() {
                         Введите ваш номер
                         мобильного телефона
                     </p>
-                    <input placeholder='+7 (___) ___-__-__' type="text" defaultValue={phone} />
+                    <input placeholder='+7 (___) ___-__-__' readOnly type="text" defaultValue={phone} />
                     <p>и с Вами свяжется наш менеждер для дальнейшей консультации</p>
                     <div className="numbers">
                         <button className="number" onClick={() => addDigit(1)}>1</button>
@@ -64,10 +77,10 @@ function PhoneEnter() {
                         <button className="number" onClick={() => addDigit(0)}>0</button>
                     </div>
                     <div className="checkbox_container">
-                        <input type="checkbox" className="checkbox" />
-                        <label htmlFor="yes">Согласие на обработку персональных данных</label>
+                        <button className={`checkbox ${selectBox ? 'selectCheckbox' : ''}`} onClick={handleClickBox}></button>
+                        <p>Согласие на обработку персональных данных</p>
                     </div>
-                    <button className='btn-yes confirm'>Подтвердить номер</button>
+                    <button disabled={!phoneNumber.isValid || !selectBox} className='btn-yes confirm' onClick={handleConfirmClick}>Подтвердить номер</button>
                 </div>
             </div>
         </div>

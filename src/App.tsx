@@ -6,14 +6,16 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [y, setY] = useState<any>(document.scrollingElement?.scrollHeight);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [showComponent, setShowComponent] = useState(false);
+
   
+
   const handleNavigation = useCallback((e: any) => {
     if (y < window.scrollY) {
       setIsPlaying(false)
     } else if (y > window.scrollY) {
-      setIsPlaying(true)  
+      setIsPlaying(true)
     }
-    console.log(isPlaying);
     setY(window.scrollY)
   }, [y]);
 
@@ -34,10 +36,17 @@ function App() {
     }
   }, [isPlaying]);
 
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      setShowComponent(true);
+    }, 5000);
+    return () => clearTimeout(delay);
+  }, []);
+
   const handleClickScroll = () => {
     const element = document.getElementById('section-two');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView();
     }
   };
 
@@ -47,15 +56,16 @@ function App() {
         <video loop ref={videoRef} controls muted id='bg-video'>
           <source src={require('./assets/videoBg.mp4')} type='video/mp4' />
         </video>
-        <div className='greeting'>
-          <p className='greeting_title'>ИСПОЛНИТЕ МЕЧТУ ВАШЕГО МАЛЫША!<br />
-            ПОДАРИТЕ ЕМУ СОБАКУ!</p>
-          <img className='greeting_img' src='./imgs/qr.png' />
-          <p>Сканируйте QR-код <br />
-            или нажмите ОК</p>
-
-          <button className='btn-yes' onClick={handleClickScroll}> OK</button>
-        </div>
+        {showComponent &&
+          <div className='greeting delayed-component'>
+            <p className='greeting_title'>ИСПОЛНИТЕ МЕЧТУ ВАШЕГО МАЛЫША!<br />
+              ПОДАРИТЕ ЕМУ СОБАКУ!</p>
+            <img className='greeting_img' src='./imgs/qr.png' />
+            <p>Сканируйте QR-код <br />
+              или нажмите ОК</p>
+            <button className='btn-yes' onClick={handleClickScroll}> OK</button>
+          </div>
+        }
       </div>
       <div id="section-two">
         <PhoneEnter />
