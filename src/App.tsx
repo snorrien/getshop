@@ -1,30 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import PhoneEnter from './components/PhoneEnter';
+import MainPage from './components/MainPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [y, setY] = useState<any>(document.scrollingElement?.scrollHeight);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [showComponent, setShowComponent] = useState(false);
-
-  
-
-  const handleNavigation = useCallback((e: any) => {
-    if (y < window.scrollY) {
-      setIsPlaying(false)
-    } else if (y > window.scrollY) {
-      setIsPlaying(true)
-    }
-    setY(window.scrollY)
-  }, [y]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleNavigation);
-    return () => {
-      window.removeEventListener("scroll", handleNavigation);
-    };
-  });
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [page, setPage] = useState<'Form' | 'Main' | 'Info'>('Main')
 
   useEffect(() => {
     if (videoRef.current) {
@@ -36,40 +19,31 @@ function App() {
     }
   }, [isPlaying]);
 
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      setShowComponent(true);
-    }, 5000);
-    return () => clearTimeout(delay);
-  }, []);
+  function openFormPage() {
+    setPage('Form');
+    setIsPlaying(false);
+  }
 
-  const handleClickScroll = () => {
-    const element = document.getElementById('section-two');
-    if (element) {
-      element.scrollIntoView();
-    }
-  };
+  function closeFormPage() {
+    setPage('Main');
+    setIsPlaying(true);
+  }
+
+  function openInfoPage() {
+    setPage('Info');
+  }
 
   return (
-    <div>
-      <div className='App' id="section-one" >
-        <video loop ref={videoRef} controls muted id='bg-video'>
-          <source src={require('./assets/videoBg.mp4')} type='video/mp4' />
-        </video>
-        {showComponent &&
-          <div className='greeting delayed-component'>
-            <p className='greeting_title'>ИСПОЛНИТЕ МЕЧТУ ВАШЕГО МАЛЫША!<br />
-              ПОДАРИТЕ ЕМУ СОБАКУ!</p>
-            <img className='greeting_img' src='./imgs/qr.png' />
-            <p>Сканируйте QR-код <br />
-              или нажмите ОК</p>
-            <button className='btn-yes' onClick={handleClickScroll}> OK</button>
-          </div>
-        }
-      </div>
-      <div id="section-two">
-        <PhoneEnter />
-      </div>
+    <div className='App'>
+      <video loop ref={videoRef} controls muted id='bg-video'>
+        <source src={require('./assets/videoBg.mp4')} type='video/mp4' />
+      </video>
+      {page === 'Main' &&
+        <MainPage openFormPage={openFormPage} />
+      }
+      {page === 'Form' &&
+        <PhoneEnter openInfoPage={openInfoPage} returnToMainPage={closeFormPage} />
+      }
     </div>
   );
 }

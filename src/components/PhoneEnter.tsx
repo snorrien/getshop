@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react';
 
 const phoneNumber = new PhoneNumberService();
 
-function PhoneEnter() {
+interface Props {
+    returnToMainPage: () => void;
+    openInfoPage: () => void;
+}
+
+function PhoneEnter({ returnToMainPage, openInfoPage }: Props) {
     const [phone, setPhone] = useState<string | undefined>();
     const [selectBox, setSelectBox] = useState(false);
 
@@ -43,12 +48,16 @@ function PhoneEnter() {
     }, []);
 
     function handleConfirmClick(): void {
-        console.log('asd')
+        openInfoPage();
+    }
+
+    function handleCloseClick(): void {
+        returnToMainPage();
     }
 
     return (
         <div className='phoneEnter'>
-            <button className='btn-close'>
+            <button className='btn-close' onClick={handleCloseClick}>
                 <div className='close'></div>
             </button>
             <div className='phoneEnter_qr'>
