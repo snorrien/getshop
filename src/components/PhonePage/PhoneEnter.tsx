@@ -1,5 +1,5 @@
 
-import { PhoneNumberService } from '../Services/PhoneNumberService';
+import { PhoneNumberService } from '../../Services/PhoneNumberService';
 import './PhoneEnter.css'
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ interface Props {
     returnToMainPage: () => void;
 }
 
-function PhoneEnter({ returnToMainPage }: Props) {
+function PhonePage({ returnToMainPage }: Props) {
     const [phone, setPhone] = useState<string | undefined>();
     const [selectBox, setSelectBox] = useState(false);
     const [isAccepted, setIsAccepted] = useState(false);
@@ -98,10 +98,9 @@ function PhoneEnter({ returnToMainPage }: Props) {
                         <p>Держите телефон под рукой. <br /> Скоро c Вами свяжется наш менеджер. </p>
                     </div>
                 }
-
             </div>
         </div>
     );
 }
 
-export default PhoneEnter;
+export default PhonePage;

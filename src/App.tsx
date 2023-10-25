@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
-import PhoneEnter from './components/PhoneEnter';
-import MainPage from './components/MainPage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainPage from './components/MainPage/MainPage';
+import PhonePage from './components/PhonePage/PhoneEnter';
 
 function App() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -38,7 +37,7 @@ function App() {
         <MainPage openFormPage={openFormPage} />
       }
       {page === 'Form' &&
-        <PhoneEnter returnToMainPage={closeFormPage} />
+        <PhonePage returnToMainPage={closeFormPage} />
       }
     </div>
   );
