@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [page, setPage] = useState<'Form' | 'Main' | 'Info'>('Main')
+  const [page, setPage] = useState<'Form' | 'Main'>('Main')
 
   useEffect(() => {
     if (videoRef.current) {
@@ -29,10 +29,6 @@ function App() {
     setIsPlaying(true);
   }
 
-  function openInfoPage() {
-    setPage('Info');
-  }
-
   return (
     <div className='App'>
       <video loop ref={videoRef} controls muted id='bg-video'>
@@ -42,7 +38,7 @@ function App() {
         <MainPage openFormPage={openFormPage} />
       }
       {page === 'Form' &&
-        <PhoneEnter openInfoPage={openInfoPage} returnToMainPage={closeFormPage} />
+        <PhoneEnter returnToMainPage={closeFormPage} />
       }
     </div>
   );

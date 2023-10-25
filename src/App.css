@@ -16,52 +16,6 @@ video::-webkit-media-controls {
   z-index: -1;
 }
 
-@keyframes slideInFromRight {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.delayed-component {
-  opacity: 0;
-  transform: translateX(100%);
-  animation: slideInFromRight 0.5s ease-in-out forwards;
-}
-
-.greeting {
-  background: #86D3F4;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 0px;
-  max-width: 251px;
-  position: absolute;
-  right: 0;
-  top: 15rem;
-}
-
-.greeting p {
-  text-align: center;
-}
-
-.greeting_title {
-  padding-top: 20px;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.greeting_img {
-  width: 126px;
-  height: 126px;
-}
-
 .btn-yes {
   background: #000;
   color: #86D3F4;

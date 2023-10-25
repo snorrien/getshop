@@ -7,12 +7,12 @@ const phoneNumber = new PhoneNumberService();
 
 interface Props {
     returnToMainPage: () => void;
-    openInfoPage: () => void;
 }
 
-function PhoneEnter({ returnToMainPage, openInfoPage }: Props) {
+function PhoneEnter({ returnToMainPage }: Props) {
     const [phone, setPhone] = useState<string | undefined>();
     const [selectBox, setSelectBox] = useState(false);
+    const [isAccepted, setIsAccepted] = useState(false);
 
     const handleClickBox = () => {
         setSelectBox(!selectBox);
@@ -48,7 +48,7 @@ function PhoneEnter({ returnToMainPage, openInfoPage }: Props) {
     }, []);
 
     function handleConfirmClick(): void {
-        openInfoPage();
+        setIsAccepted(true)
     }
 
     function handleCloseClick(): void {
@@ -65,32 +65,40 @@ function PhoneEnter({ returnToMainPage, openInfoPage }: Props) {
                 <img className='phoneEnter_img' src='./imgs/qr.png' />
             </div>
             <div className='container'>
-                <div className='container_content'>
-                    <p className="container_title">
-                        Введите ваш номер
-                        мобильного телефона
-                    </p>
-                    <input placeholder='+7 (___) ___-__-__' readOnly type="text" defaultValue={phone} />
-                    <p>и с Вами свяжется наш менеждер для дальнейшей консультации</p>
-                    <div className="numbers">
-                        <button className="number" onClick={() => addDigit(1)}>1</button>
-                        <button className="number" onClick={() => addDigit(2)}>2</button>
-                        <button className="number" onClick={() => addDigit(3)}>3</button>
-                        <button className="number" onClick={() => addDigit(4)}>4</button>
-                        <button className="number" onClick={() => addDigit(5)}>5</button>
-                        <button className="number" onClick={() => addDigit(6)}>6</button>
-                        <button className="number" onClick={() => addDigit(7)}>7</button>
-                        <button className="number" onClick={() => addDigit(8)}>8</button>
-                        <button className="number" onClick={() => addDigit(9)}>9</button>
-                        <button className="number delete" onClick={() => clean()}>Стереть</button>
-                        <button className="number" onClick={() => addDigit(0)}>0</button>
+                {!isAccepted ?
+                    <div className='container_content'>
+                        <p className="container_title">
+                            Введите ваш номер
+                            мобильного телефона
+                        </p>
+                        <input placeholder='+7 (___) ___-__-__' readOnly type="text" defaultValue={phone} />
+                        <p>и с Вами свяжется наш менеждер для дальнейшей консультации</p>
+                        <div className="numbers">
+                            <button className="number" onClick={() => addDigit(1)}>1</button>
+                            <button className="number" onClick={() => addDigit(2)}>2</button>
+                            <button className="number" onClick={() => addDigit(3)}>3</button>
+                            <button className="number" onClick={() => addDigit(4)}>4</button>
+                            <button className="number" onClick={() => addDigit(5)}>5</button>
+                            <button className="number" onClick={() => addDigit(6)}>6</button>
+                            <button className="number" onClick={() => addDigit(7)}>7</button>
+                            <button className="number" onClick={() => addDigit(8)}>8</button>
+                            <button className="number" onClick={() => addDigit(9)}>9</button>
+                            <button className="number delete" onClick={() => clean()}>Стереть</button>
+                            <button className="number" onClick={() => addDigit(0)}>0</button>
+                        </div>
+                        <div className="checkbox_container">
+                            <button className={`checkbox ${selectBox ? 'selectCheckbox' : ''}`} onClick={handleClickBox}></button>
+                            <p>Согласие на обработку персональных данных</p>
+                        </div>
+                        <button disabled={!phoneNumber.isValid || !selectBox} className='btn-yes confirm' onClick={handleConfirmClick}>Подтвердить номер</button>
                     </div>
-                    <div className="checkbox_container">
-                        <button className={`checkbox ${selectBox ? 'selectCheckbox' : ''}`} onClick={handleClickBox}></button>
-                        <p>Согласие на обработку персональных данных</p>
+                    :
+                    <div className='container_accept'>
+                        <p className='container_accept__title'>ЗАЯВКА <br />ПРИНЯТА</p>
+                        <p>Держите телефон под рукой. <br /> Скоро c Вами свяжется наш менеджер. </p>
                     </div>
-                    <button disabled={!phoneNumber.isValid || !selectBox} className='btn-yes confirm' onClick={handleConfirmClick}>Подтвердить номер</button>
-                </div>
+                }
+
             </div>
         </div>
     );
