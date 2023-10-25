@@ -1,12 +1,8 @@
-.App {
+.app {
   min-height: 100vh;
 }
 
-video::-webkit-media-controls {
-  display: none;
-}
-
-#bg-video{
+.app__video {
   object-fit: cover;
   width: 100vw;
   height: 100vh;
@@ -16,7 +12,11 @@ video::-webkit-media-controls {
   z-index: -1;
 }
 
-.btn-yes {
+.app__video::-webkit-media-controls {
+  display: none;
+}
+
+.button {
   background: #000;
   color: #86D3F4;
   font-size: 16px;
@@ -24,5 +24,11 @@ video::-webkit-media-controls {
   padding: 16px;
   border: none;
   cursor: pointer;
+}
 
+button:disabled,
+button[disabled] {
+    border: 1px solid #4E4E4E;
+    background-color: #86D3F4;
+    color: #4E4E4E;
 }

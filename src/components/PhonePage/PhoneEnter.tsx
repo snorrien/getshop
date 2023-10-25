@@ -11,11 +11,11 @@ interface Props {
 
 function PhonePage({ returnToMainPage }: Props) {
     const [phone, setPhone] = useState<string | undefined>();
-    const [selectBox, setSelectBox] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
     const [isAccepted, setIsAccepted] = useState(false);
 
     const handleClickBox = () => {
-        setSelectBox(!selectBox);
+        setIsChecked(!isChecked);
     };
 
     function addDigit(digit: number) {
@@ -56,45 +56,45 @@ function PhonePage({ returnToMainPage }: Props) {
     }
 
     return (
-        <div className='phoneEnter'>
-            <button className='btn-close' onClick={handleCloseClick}>
-                <div className='close'></div>
+        <div className='phone-page'>
+            <button className='close-button phone-page__close-button' onClick={handleCloseClick}>
+                <div className='close-button__image'></div>
             </button>
-            <div className='phoneEnter_qr'>
-                <p className='phoneEnter_text'>Сканируйте QR-код ДЛЯ ПОЛУЧЕНИЯ ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИИ</p>
-                <img className='phoneEnter_img' src='./imgs/qr.png' />
+            <div className='qr-code phone-page__qr-code'>
+                <p className='qr-code__text'>Сканируйте QR-код ДЛЯ ПОЛУЧЕНИЯ ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИИ</p>
+                <img className='qr-code__image' src='./imgs/qr.png' />
             </div>
-            <div className='container'>
+            <div className='phone-page__content'>
                 {!isAccepted ?
-                    <div className='container_content'>
-                        <p className="container_title">
+                    <div className='phone-form'>
+                        <p className="phone-form__title">
                             Введите ваш номер
                             мобильного телефона
                         </p>
-                        <input placeholder='+7 (___) ___-__-__' readOnly type="text" defaultValue={phone} />
-                        <p>и с Вами свяжется наш менеждер для дальнейшей консультации</p>
-                        <div className="numbers">
-                            <button className="number" onClick={() => addDigit(1)}>1</button>
-                            <button className="number" onClick={() => addDigit(2)}>2</button>
-                            <button className="number" onClick={() => addDigit(3)}>3</button>
-                            <button className="number" onClick={() => addDigit(4)}>4</button>
-                            <button className="number" onClick={() => addDigit(5)}>5</button>
-                            <button className="number" onClick={() => addDigit(6)}>6</button>
-                            <button className="number" onClick={() => addDigit(7)}>7</button>
-                            <button className="number" onClick={() => addDigit(8)}>8</button>
-                            <button className="number" onClick={() => addDigit(9)}>9</button>
-                            <button className="number delete" onClick={() => clean()}>Стереть</button>
-                            <button className="number" onClick={() => addDigit(0)}>0</button>
+                        <input className='phone-form__input' placeholder='+7 (___) ___-__-__' readOnly type="text" defaultValue={phone} />
+                        <p >и с Вами свяжется наш менеждер для дальнейшей консультации</p>
+                        <div className="phone-form__digits">
+                            <button className="phone-form__digit" onClick={() => addDigit(1)}>1</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(2)}>2</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(3)}>3</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(4)}>4</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(5)}>5</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(6)}>6</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(7)}>7</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(8)}>8</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(9)}>9</button>
+                            <button className="phone-form__digit phone-form__digit_big" onClick={() => clean()}>Стереть</button>
+                            <button className="phone-form__digit" onClick={() => addDigit(0)}>0</button>
                         </div>
-                        <div className="checkbox_container">
-                            <button className={`checkbox ${selectBox ? 'selectCheckbox' : ''}`} onClick={handleClickBox}></button>
-                            <p>Согласие на обработку персональных данных</p>
+                        <div className="checkbox">
+                            <button className={`checkbox__button ${isChecked ? 'checkbox__button_checked' : ''}`} onClick={handleClickBox}></button>
+                            <p className='checkbox__label'>Согласие на обработку персональных данных</p>
                         </div>
-                        <button disabled={!phoneNumber.isValid || !selectBox} className='btn-yes confirm' onClick={handleConfirmClick}>Подтвердить номер</button>
+                        <button disabled={!phoneNumber.isValid || !isChecked} className='button phone-form__confirm-button' onClick={handleConfirmClick}>Подтвердить номер</button>
                     </div>
                     :
-                    <div className='container_accept'>
-                        <p className='container_accept__title'>ЗАЯВКА <br />ПРИНЯТА</p>
+                    <div className='confirmation'>
+                        <p className='confirmation__title'>ЗАЯВКА <br />ПРИНЯТА</p>
                         <p>Держите телефон под рукой. <br /> Скоро c Вами свяжется наш менеджер. </p>
                     </div>
                 }

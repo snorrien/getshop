@@ -29,8 +29,8 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <video loop ref={videoRef} controls muted id='bg-video'>
+    <div className='app'>
+      <video ref={videoRef} className='app__video' loop controls muted>
         <source src={require('./assets/videoBg.mp4')} type='video/mp4' />
       </video>
       {page === 'Main' &&
