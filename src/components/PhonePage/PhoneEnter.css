@@ -114,6 +114,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.phone-form__input_invalid {
+    color:rgba(234, 0, 0, 1);
+}
+
 .phone-form__input:focus {
     outline: none;
 }
@@ -195,6 +199,16 @@
 .checkbox__button_checked {
     background-image: url(../../../public/imgs/check.svg);
     background-size: 80% 80%;
+}
+
+.error-message{
+    margin: 15px 0;
+}
+
+.error-message__text {
+    font-size: 16px;
+    color:rgba(234, 0, 0, 1);
+    font-weight: 500;
 }
 
 .phone-form__confirm-button {

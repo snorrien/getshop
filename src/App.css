@@ -26,9 +26,8 @@
   cursor: pointer;
 }
 
-button:disabled,
-button[disabled] {
-    border: 1px solid #4E4E4E;
-    background-color: #86D3F4;
-    color: #4E4E4E;
+.button_disabled{
+  border: 1px solid #4E4E4E;
+  background-color: #86D3F4;
+  color: #4E4E4E;
 }
